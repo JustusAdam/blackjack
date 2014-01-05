@@ -19,3 +19,4 @@ void makedeck(card* k);
 void printname(int value);
 void printcolor(int value);
 void filldeck(card* origin, deck* standart);
+card *drawncard(deck *standart, int number);

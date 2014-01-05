@@ -57,3 +57,12 @@ void filldeck(card* origin, deck* standart){
 	}
 	standart[32].nextcard = &standart[0];
 }
+card *drawncard(deck *standart, int number){
+	if(standart == 0){printf("NULL"); return 0;}
+	else if(standart == standart -> nextcard) standart -> nextcard = NULL;
+	else if(number != 0) drawncard(standart -> nextcard, number - 1);
+	else {
+		standart -> nextcard = standart -> nextcard -> nextcard;
+	}
+	return standart -> nextcard -> thiscard;
+}
