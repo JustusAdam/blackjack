@@ -11,7 +11,7 @@ int main(){
 	}
 	deck standart[32]; 
 	filldeck(deckarray, standart);
-	printf("%d\n",standart[5].nextcard -> thiscard -> cardvalue);
+	//printf("%d\n",standart[5].nextcard -> thiscard -> cardvalue);
 	
 	
 	return 0;
