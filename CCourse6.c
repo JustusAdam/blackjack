@@ -2,13 +2,38 @@
 
 int main(){
 	int i;
-	card deck[32]; makedeck(deck);
+	card deckarray[32]; makedeck(deckarray);
 	for(i=0;i<32;i++){
-		printf("%i %i\n",deck[i].color,deck[i].name);
+		printname(deckarray[i].name);
+		printf(" of ");
+		printcolor(deckarray[i].color);
+		printf("  %i points\n",deckarray[i].cardvalue);
 	}
+	deck standart[32]; 
+	filldeck(deckarray, standart);
+	printf("%d\n",standart[5].nextcard -> thiscard -> cardvalue);
 	
 	
 	return 0;
+}
+void printcolor(value){
+	switch (value){
+		case 0: printf("Hearts"); break;
+		case 1: printf("Diamonds"); break;
+		case 2: printf("Clubs"); break;
+		case 3: printf("Spades"); break;
+	}
+}
+void printname(value){
+	switch (value){
+		case 3: printf("Jack"); break;
+		case 4: printf("Queen"); break;
+		case 5: printf("King"); break;
+		case 6: printf("Ace"); break;
+		case 7: printf("Seven"); break;
+		case 8: printf("Eight"); break;
+		case 9: printf("Nine"); break;
+		case 10: printf("Ten"); break;}
 }
 
 void makedeck(card* k){
@@ -18,13 +43,17 @@ void makedeck(card* k){
 			int position = i*8 + o;
 			k[position].color = i ;
 			k[position].name = o +3 ;
-			
+			if (k[position].name >= 7) k[position].cardvalue = k[position].name;
+			else if (k[position].name == 6) k[position].cardvalue = 11;
+			else k[position].cardvalue = 10; 
 		}
 	}
-
+}
+void filldeck(card* origin, deck* standart){
+	int i;
+	for(i=32;i>=0;i--){
+		standart[i].nextcard = &standart[i + 1];
+		standart[i].thiscard = &origin[i];	
 	}
-
-/*card nextCard(enum cardtype color, enum cardclass name){
-	card.color = color;
-	card.name = name;
-	}*/
+	standart[32].nextcard = &standart[0];
+}

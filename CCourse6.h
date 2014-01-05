@@ -7,8 +7,15 @@ typedef struct cards{
 	enum cardtype color;
 	enum cardclass name;
 	int cardvalue;
-	} card;
+} card;
+
+typedef struct deck *pointer;
+typedef struct deck{
+	card *thiscard;
+	pointer nextcard;
+} deck;
 
 void makedeck(card* k);
-//card nextCard(enum cardtype color, enum cardclass name);
-
+void printname(int value);
+void printcolor(int value);
+void filldeck(card* origin, deck* standart);
