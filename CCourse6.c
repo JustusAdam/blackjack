@@ -11,6 +11,10 @@ int main(){
 	}
 	deck standart[32]; 
 	filldeck(deckarray, standart);
+	deck *first = &standart[0];
+	card mycard = *drawncard(&first,10);
+	printcolor(mycard.color); printf("\n");
+	printname(mycard.name);
 	//printf("%d\n",standart[5].nextcard -> thiscard -> cardvalue);
 	
 	
@@ -57,12 +61,19 @@ void filldeck(card* origin, deck* standart){
 	}
 	standart[32].nextcard = &standart[0];
 }
-card *drawncard(deck *standart, int number){
-	if(standart == 0){printf("NULL"); return 0;}
-	else if(standart == standart -> nextcard) standart -> nextcard = NULL;
-	else if(number != 0) drawncard(standart -> nextcard, number - 1);
+card *drawncard(pointer *metastandart, int number){
+	deck *standart = *metastandart;
+	if(standart -> nextcard == NULL){printf("NULL"); return NULL;}
+	else if(standart == standart -> nextcard){
+		standart -> nextcard = NULL;
+		return standart -> nextcard -> thiscard;
+		}
+	else if(number != 0){ 
+		*metastandart = standart -> nextcard;
+		return drawncard(metastandart, number - 1);
+	}
 	else {
 		standart -> nextcard = standart -> nextcard -> nextcard;
+		return standart -> nextcard -> thiscard;
 	}
-	return standart -> nextcard -> thiscard;
 }
