@@ -1,23 +1,39 @@
 #include "CCourse6.h"
 
 int main(){
-	int i;
+	
+	srand(time(0));
+	int i, p;
+	int g;
 	card deckarray[32]; makedeck(deckarray);
+	/*printf("Initializing deck:\n");
 	for(i=0;i<32;i++){
 		printname(deckarray[i].name);
 		printf(" of ");
 		printcolor(deckarray[i].color);
 		printf("  %i points\n",deckarray[i].cardvalue);
-	}
+	}*/
 	deck standart[32]; 
 	filldeck(deckarray, standart);
 	deck *first = &standart[0];
-	card mycard = *drawncard(&first,10);
-	printcolor(mycard.color); printf("\n");
-	printname(mycard.name);
-	//printf("%d\n",standart[5].nextcard -> thiscard -> cardvalue);
-	
-	
+	while(1){
+		printf("\n\n\n\nHow many random cards do you need?");
+		scanf("%i",&p);
+		printf("pulling random cards:\n");
+		for(p;p!=0;p--){
+			int random = rand() %32;
+			card mycard = *drawncard(&first,random);
+			printname(mycard.name); printf(" of "); printcolor(mycard.color); printf("\n");
+		}
+		printf("Do you want more? Y/n");
+		scanf("%i",&g);
+		if(g == 1) break;
+	}
+	/*for(i=0;i<32;i++){
+		printname(standart[i].thiscard -> name); printf(" of ");
+		printcolor(standart[i].thiscard -> color); printf("\n");
+		printf(" value: %i\n",standart[i].thiscard -> cardvalue);
+	}*/
 	return 0;
 }
 void printcolor(value){
@@ -53,27 +69,29 @@ void makedeck(card* k){
 		}
 	}
 }
-void filldeck(card* origin, deck* standart){
+void filldeck(card *origin, deck *standart){
 	int i;
-	for(i=32;i>=0;i--){
+	for(i=0;i<=31;i++){
 		standart[i].nextcard = &standart[i + 1];
 		standart[i].thiscard = &origin[i];	
 	}
-	standart[32].nextcard = &standart[0];
+	standart[31].nextcard = &standart[0];
 }
 card *drawncard(pointer *metastandart, int number){
 	deck *standart = *metastandart;
-	if(standart -> nextcard == NULL){printf("NULL"); return NULL;}
+	if(standart == NULL){printf("NULL"); return NULL;}
 	else if(standart == standart -> nextcard){
-		standart -> nextcard = NULL;
-		return standart -> nextcard -> thiscard;
+		card *something = standart -> thiscard;
+		*metastandart = NULL;
+		return something;
 		}
-	else if(number != 0){ 
+	else if(number != 0){
 		*metastandart = standart -> nextcard;
 		return drawncard(metastandart, number - 1);
 	}
 	else {
+		card *something = standart -> nextcard -> thiscard;
 		standart -> nextcard = standart -> nextcard -> nextcard;
-		return standart -> nextcard -> thiscard;
+		return something;
 	}
 }
